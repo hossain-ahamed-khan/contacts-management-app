@@ -1,11 +1,32 @@
+"use client"
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
+import { FaEdit } from "react-icons/fa";
+import { MdDeleteOutline } from "react-icons/md";
+import Swal from 'sweetalert2';
 
 const ContactCard = ({ contact }) => {
 
-    const { name, email, phone_number, address, profile_picture } = contact || {};
+    const { _id, name, email, phone_number, address, profile_picture } = contact || {};
+
+    const handleDelete = async (id) => {
+        const deleted = await fetch(`http://localhost:3000/my-contacts/api/contact/${id}`, {
+            method: "DELETE",
+        })
+        const resp = await deleted.json();
+        if (resp?.response?.deletedCount > 0) {
+            Swal.fire({
+                position: "center",
+                title: "contact Deleted successfully",
+                icon: "success",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+    }
     return (
-        <div className="card lg:card-side bg-base-100 shadow-xl">
+        <div className="card lg:card-side bg-base-100 shadow-xl border-2 border-red-500">
             <figure>
                 <Image
                     className="rounded-2xl"
@@ -16,62 +37,18 @@ const ContactCard = ({ contact }) => {
             </figure>
             <div className="flex w-full">
                 <div className="card-body w-11/12">
-                    <h2 className="card-title">{name}</h2>
-                    <p><span>Email: </span>{email}</p>
-                    <p><span>Phone: </span>{phone_number}</p>
-                    <p><span>Address: </span>{address}</p>
+                    <h2 className="text-3xl font-bold">{name}</h2>
+                    <p><span className='font-bold'>Email: </span>{email}</p>
+                    <p><span className='font-bold'>Phone: </span>{phone_number}</p>
+                    <p><span className='font-bold'>Address: </span>{address}</p>
                 </div>
-                <div className="card-body w-1/12">
-                    <ul className="menu">
-                        <li>
-                            <a>
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-5 w-5"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                                </svg>
-                            </a>
-                        </li>
-                        <li>
-                            <a>
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-5 w-5"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </a>
-                        </li>
-                        <li>
-                            <a>
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-5 w-5"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                                </svg>
-                            </a>
-                        </li>
-                    </ul>
+                <div className="card-body w-1/12 flex flex-col justify-center items-center">
+                    <div>
+                        <Link href={`/my-contacts/update/${_id}`}><button><FaEdit className='text-[#009de4] text-2xl hover:text-[#009ce48c]' /></button></Link>
+                    </div>
+                    <div>
+                        <button onClick={() => handleDelete(_id)}><MdDeleteOutline className='text-[#ef4c53] text-3xl hover:text-[#ef4c548e]' /></button>
+                    </div>
                 </div>
             </div>
         </div>

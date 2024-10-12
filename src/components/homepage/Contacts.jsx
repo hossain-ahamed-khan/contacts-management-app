@@ -1,13 +1,13 @@
 import React from 'react';
 import ContactCard from '../cards/ContactCard';
 
-const getContacts = async () => {
-    const res = await fetch("http://localhost:3000/get-contacts/api")
-    const data = res.json();
-    return data;
-}
-
 const Contacts = async () => {
+
+    const getContacts = async () => {
+        const res = await fetch("http://localhost:3000/get-contacts/api", { cache: "no-store" })
+        const data = res.json();
+        return data;
+    }
 
     const { contacts } = await getContacts();
 
