@@ -11,7 +11,8 @@ const ContactCard = ({ contact }) => {
     const { _id, name, email, phone_number, address, profile_picture } = contact || {};
 
     const handleDelete = async (id) => {
-        const deleted = await fetch(`http://localhost:3000/my-contacts/api/contact/${id}`, {
+        const deleted = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/my-contacts/api/contact/${id}`, {
+            cache: "no-store",
             method: "DELETE",
         })
         const resp = await deleted.json();
@@ -33,7 +34,9 @@ const ContactCard = ({ contact }) => {
                     height={120}
                     width={120}
                     src={profile_picture}
-                    alt={name} ></Image>
+                    alt={name}
+                    priority={true}
+                ></Image>
             </figure>
             <div className="flex w-full">
                 <div className="card-body w-11/12">

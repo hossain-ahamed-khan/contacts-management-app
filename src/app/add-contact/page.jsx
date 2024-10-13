@@ -15,7 +15,7 @@ const Page = () => {
             profile_picture: data.imageURL,
         }
 
-        const resp = await fetch("http://localhost:3000/add-contact/api", {
+        const resp = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/add-contact/api`, {
             cache: "no-store",
             method: "POST",
             body: JSON.stringify(contact),
@@ -33,18 +33,6 @@ const Page = () => {
                 timer: 1500
             });
         }
-
-        // const testRes = await axiosSecure.post("/tests", testItem)
-        // if (testRes.data.insertedId) {
-        //     reset();
-        //     Swal.fire({
-        //         position: "center",
-        //         icon: "success",
-        //         title: `${data.name} Added successfully`,
-        //         showConfirmButton: false,
-        //         timer: 1500
-        //     });
-        // }
     }
     return (
         <div className="w-1/2 mx-auto">

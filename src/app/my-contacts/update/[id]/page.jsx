@@ -8,7 +8,7 @@ const Page = ({ params }) => {
     const [contact, setContact] = useState([])
 
     const loadContact = async () => {
-        const contactDetails = await fetch(`http://localhost:3000/my-contacts/api/contact/${params.id}`)
+        const contactDetails = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/my-contacts/api/contact/${params.id}`, { cache: "no-store" })
         const data = await contactDetails.json();
         setContact(data.data);
     }
@@ -27,7 +27,7 @@ const Page = ({ params }) => {
             profile_picture: data.imageURL,
         }
 
-        const resp = await fetch(`http://localhost:3000/my-contacts/api/contact/${params.id}`, {
+        const resp = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/my-contacts/api/contact/${params.id}`, {
             cache: "no-store",
             method: "PATCH",
             body: JSON.stringify(updateContact),
@@ -44,18 +44,6 @@ const Page = ({ params }) => {
                 timer: 1500
             });
         }
-
-        // const testRes = await axiosSecure.post("/tests", testItem)
-        // if (testRes.data.insertedId) {
-        //     reset();
-        //     Swal.fire({
-        //         position: "center",
-        //         icon: "success",
-        //         title: `${data.name} Added successfully`,
-        //         showConfirmButton: false,
-        //         timer: 1500
-        //     });
-        // }
     }
     return (
         <div className="w-1/2 mx-auto">

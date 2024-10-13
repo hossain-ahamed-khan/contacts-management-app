@@ -1,10 +1,11 @@
+export const dynamic = "force-dynamic";
 import React from 'react';
 import ContactCard from '../cards/ContactCard';
 
 const Contacts = async () => {
 
     const getContacts = async () => {
-        const res = await fetch("http://localhost:3000/get-contacts/api", { cache: "no-store" })
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/get-contacts/api`, { cache: "no-store" })
         const data = res.json();
         return data;
     }
